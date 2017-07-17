@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hamburger</title>
+    <script src="hamburger.js"></script>
+    <script>
+      window.onload = function () {
+        var myHamTable = document.getElementById('hamtable');
+
+        try {
+          var ham = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_SALAD);
+          ham.addTopping(Hamburger.TOPPING_MAYO);
+          ham.addTopping(Hamburger.TOPPING_SPICE);
+          // попытка добавить такую же приправу
+          //ham.addTopping(Hamburger.TOPPING_SPICE);
+          ham.removeTopping(Hamburger.TOPPING_SPICE);
+          // попытка убрать уже удаленную приправу
+          //ham.removeTopping(Hamburger.TOPPING_SPICE);
+        } catch (e) {
+          alert(e.message);
+          console.log(e.data);
+        }
+        myHamTable.innerHTML = 'Цена: ' + ham.calculatePrice() + ' руб.<br>';
+        myHamTable.innerHTML += 'Калорийность: ' + ham.calculateCalories() + ' калорий';
+      }
+    </script>
+</head>
+<body>
+  <div id="hamtable"></div>
+</body>
+</html>
