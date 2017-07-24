@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Menu</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script>
+        //Класс Container
+        function Container() {
+            this.id = '';
+            this.className = '';
+            this.htmlCode = '';
+        }
+
+        Container.prototype.render = function () {
+            return this.htmlCode;
+        };
+
+        // Homework task 1
+        Container.prototype.remove = function () {
+            var elem = document.getElementById(this.id);
+            if (elem) {
+              elem.remove();
+              return true;
+            }
+            return false;
+        };
+
+        //Класс Меню
+        function Menu(myId, myClass, myItems) {
+            Container.call(this);
+
+            this.id = myId;
+            this.className = myClass;
+            this.items = myItems;
+        }
+
+        Menu.prototype = Object.create(Container.prototype);
+        Menu.prototype.constructor = Menu;
+
+        Menu.prototype.render = function () {
+            var result = '<ul class="' + this.className + '" id="' + this.id + '">';
+
+            for (var i = 0; i < this.items.length; i++) {
+                if(this.items[i] instanceof MenuItem){
+                    result += this.items[i].render();
+                }
+            }
+
+            result += '</ul>';
+            return result;
+        };
+
+        // Homework task 2
+        //Класс MenuInner
+        function MenuInner(myId, myClass, myItems) {
+            Menu.call(this);
+
+            this.id = myId;
+            this.className = myClass;
+            this.items = myItems;
+        }
+
+        MenuInner.prototype = Object.create(Menu.prototype);
+        MenuInner.prototype.constructor = MenuInner;
+
+        MenuInner.prototype.render = function () {
+            var result = '<ul class="' + this.className + '" id="' + this.id + '">';
+
+            for (var i = 0; i < this.items.length; i++) {
+                if(this.items[i] instanceof MenuItem){
+                    result += this.items[i].render();
+                }
+                if(this.items[i] instanceof MenuInner){
+                  var first = this.items[i].items.shift();
+                  result += '<li' + ((first.itemClass) ? ' class="' + first.itemClass + '"':'') + '>';
+                  if (first.itemClass == 'dropdown') {
+                    result += '<a class="dropdown-toggle" data-toggle="dropdown" href="' + first.href + '">' + first.title + '<span class="caret"></span></a>';
+                  } else {
+                    result += '<a href="' + first.href + '">' + first.title + '</a>';
+                  }
+                  result += this.items[i].render() + '</li>';
+                }
+            }
+
+            result += '</ul>';
+            return result;
+        };
+
+        //Класс MenuItem
+        function MenuItem(href, title, itemClass) {
+            Container.call(this);
+
+            this.href = href;
+            this.title = title;
+            this.itemClass = itemClass;
+        }
+
+        MenuItem.prototype = Object.create(Container.prototype);
+        MenuItem.prototype.constructor = MenuItem;
+
+        MenuItem.prototype.render = function () {
+            var itemClass = '';
+            if (this.itemClass) {
+              itemClass = ' class="' + this.itemClass + '"';
+            }
+            return '<li' + itemClass + '><a href="' + this.href + '">' + this.title + '</a></li>';
+        };
+        //**********************
+        window.onload = function () {
+            var myMenu = document.getElementById('menu');
+            var menu = new MenuInner('shop-nav', 'nav navbar-nav', [
+                new MenuItem('/', 'Home', 'active'),
+                new MenuItem('/about/', 'About'),
+                new MenuItem('/delivery/', 'Delivery'),
+                new MenuInner('goods', 'dropdown-menu', [
+                  new MenuItem('/goods/', 'Goods', 'dropdown'),
+                  new MenuItem('/goods/good/1', 'Good 1'),
+                  new MenuItem('/goods/good/2', 'Good 2')
+                ]),
+                new MenuItem('/news/', 'News'),
+                new MenuItem('/conacts/', 'Contacts')
+            ]);
+            myMenu.innerHTML += menu.render();
+          }
+    </script>
+</head>
+<body class="container">
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-container" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+    <div class="collapse navbar-collapse" id="menu-container">
+      <div id="menu"></div>
+      <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+    </div>
+  </nav>
+</body>
+</html>
