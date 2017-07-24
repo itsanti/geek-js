@@ -78,7 +78,7 @@
       $inputs.each(function() {
         switch ($(this).attr('id')) {
           case 'name':
-            var regName = /^[a-zA-Zа-яА-ЯёЁ]+$/i;
+            var regName = /^[a-zа-яё]+$/i;
             (!regName.test($(this).val())) ? errors.push('name') : undefined ;
           break;
           case 'phone':
