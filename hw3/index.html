@@ -67,7 +67,45 @@
       }));
     });
 
-    //var regEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i;
+    $('form').submit(function(e){
+      e.preventDefault();
+      var errors = [];
+      var $inputs = $(this).find('.form-control');
+
+      $inputs.css('border', '1px solid #ccc');
+      $('.text-danger').remove();
+
+      $inputs.each(function() {
+        switch ($(this).attr('id')) {
+          case 'name':
+            var regName = /^[a-zA-Zа-яА-ЯёЁ]+$/i;
+            (!regName.test($(this).val())) ? errors.push('name') : undefined ;
+          break;
+          case 'phone':
+            var regPhone = /^\+7\(\d{3}\)\d{3}\-\d{4}$/i;
+            (!regPhone.test($(this).val())) ? errors.push('phone') : undefined ;
+          break;
+          case 'email':
+            var regEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i;
+            (!regEmail.test($(this).val())) ? errors.push('email') : undefined ;
+          break;
+          case 'text':
+            var regText = /^.+$/i;
+            (!regText.test($(this).val())) ? errors.push('text') : undefined ;
+          break;
+          default:
+            console.log('wrong form control');
+        }
+      });
+
+      if (errors.length > 0) {
+        errors.forEach(function(item) {
+          $('#' + item).css('border', '1px solid red')
+          .after('<p class="text-danger">error in <strong>' + item + '</strong> field!</p>');
+        });
+      }
+
+    });
 
   });</script>
 </body>
