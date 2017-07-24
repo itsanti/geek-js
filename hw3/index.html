@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>HW regex</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <textarea class="form-control" rows="9"></textarea>
+    </div>
+    <div class="col-md-6">
+      <p>Расположение эпизодов, основываясь на парадоксальном совмещении
+        исключающих друг друга принципов характерности и поэтичности, отталкивает
+         музыкальный подтекст, например, 'Борис Годунов' А.С.Пушкина,
+          'Кому на Руси жить хорошо' Н.А.Некрасова, 'Песня о Соколе' М.Горького
+          и др. Реципиент диссонирует орнаментальный сказ. Наш современник стал
+           особенно чутко относиться к слову, однако синекдоха вразнобой осознаёт
+           литературный поток сознания, где автор является полновластным
+           хозяином своих персонажей, а они - его марионетками.</p>
+        <p>А вот 'текст' с апо'строфом нужно 'оставлять' без замены. 'Если кавычка
+          в начале и конце предложения.'</p>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-warning">простая замена</button>
+      <button class="btn btn-success">улучшенная замена</button>
+    </div>
+    <div class="col-md-12">
+      <h1>Form validation example</h1>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Name">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="text" class="form-control" id="phone" placeholder="Phone">
+          <p class="help-block">phone pattern is +7(000)000-0000</p>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label for="text">Text</label>
+          <textarea class="form-control" rows="3" id="text" placeholder="Text..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script> $(document).ready(function(){
+    var $ta = $('textarea');
+
+    $('.btn-warning').click(function(){
+      var re = /'/g;
+      $ta.val($ta.val().replace(re, '"'));
+    });
+
+    $('.btn-success').click(function(){
+      var re = /(^| )'|'( |$)/g;
+      $ta.val($ta.val().replace(re, function(substr){
+        return substr.replace(/'/, '"');
+      }));
+    });
+
+    //var regEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i;
+
+  });</script>
+</body>
+</html>
