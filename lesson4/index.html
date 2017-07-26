@@ -8,11 +8,32 @@
 </head>
 <body class="container">
   <div class="row">
+    <section></h1><p></p></section>
+    <button class="btn">click me</button>
   </div>
 
   <script> $(document).ready(function(){
+    console.log('DOM загружен!');
 
-  
+    $('p').css('font-size', '20px');
+
+    $('button').on('click', function(){
+      console.log('click!');
+    });
+
+    // hide, show, slideUp, slideDown, fadeIn, fadeOut, fadeTo
+
+    // Ajax
+    $.ajax({
+      type: 'GET',
+      url: 'https://jsonplaceholder.typicode.com/posts/2',
+      //async: true,
+      success: function(data) {
+        $('section').html('<h1>' + data.title + '</h1><p>' + data.body + '</p>');
+      },
+      dataType: 'json' // get data as jbject
+    });
+
   });</script>
 </body>
 </html>

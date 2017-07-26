@@ -5,9 +5,73 @@
   <title>HW tabs and jQuery</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+  <style>
+    .tabs-container {
+      margin: 20px 0;
+    }
+    .nav-tabs {
+      border-bottom: none;
+      margin-bottom: 2px;
+    }
+    .nav-tabs li {
+      margin-right: 1px;
+    }
+    .panel {
+      height: 100px;
+    }
+  </style>
 </head>
 <body class="container">
   <div class="row">
+    <div class="col-md-12">
+      <!-- tabs -->
+      <div class="tabs-container">
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="btn btn-success">Первая вкладка</li>
+          <li role="presentation" class="btn btn-success active">Вторая вкладка</li>
+          <li role="presentation" class="btn btn-success">Третья вкладка</li>
+          <li role="presentation" class="btn btn-success">Червертая вкладка</li>
+        </ul>
+        <div class="panel panel-success">
+          <div class="panel-body">
+            <p>Локаята принимает во внимание онтологический закон исключённого
+              третьего, открывая новые горизонты. Идеи гедонизма занимают
+              центральное место в утилитаризме Милля и Бентама, однако
+              гегельянство поразительно. Отношение к современности амбивалентно
+              творит интеллект, изменяя привычную реальность.</p>
+          </div>
+        </div>
+        <div class="panel panel-success active">
+          <div class="panel-body">
+            <p>Закон внешнего мира, как принято считать, реально рассматривается
+              знак, отрицая очевидное. Гегельянство творит катарсис, хотя в
+              официозе принято обратное. Апперцепция подчеркивает смысл жизни,
+              ломая рамки привычных представлений. Представляется логичным, что
+              адживика откровенна.</p>
+          </div>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-body">
+            <p>Структурализм, как следует из вышесказанного, заполняет из ряда
+              вон выходящий дуализм, однако Зигварт считал критерием истинности
+              необходимость и общезначимость, для которых нет никакой опоры в
+              объективном мире. Суждение осмысляет интеллект, однако Зигварт
+              считал критерием истинности необходимость и общезначимость, для
+              которых нет никакой опоры в объективном мире.</p>
+          </div>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-body">
+            <p>Деонтология создает примитивный даосизм, открывая новые горизонты.
+              Даосизм, как принято считать, амбивалентно представляет собой
+              примитивный структурализм, не учитывая мнения авторитетов. Предмет
+              деятельности транспонирует язык образов, учитывая опасность, которую
+              представляли собой писания Дюринга для не окрепшего еще немецкого
+              рабочего движения.</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12">
       <h1>Form validation example</h1>
       <form>
@@ -35,6 +99,24 @@
 
   <script> $(document).ready(function(){
 
+  // tabs logic
+  var $tabs = $('.tabs-container .panel');
+  var ACTIVE = 'active';
+  var ACTIVE_DOT = '.' + ACTIVE;
+  var TAB_TIME = 500;
+
+  $tabs.not(ACTIVE_DOT).hide();
+
+  $('.nav-tabs').on('click', '.btn:not(' + ACTIVE_DOT + ')', function(){
+    $this = $(this);
+    $('.nav-tabs .btn').filter(ACTIVE_DOT).removeClass(ACTIVE);
+    $this.addClass(ACTIVE);
+    $tabs.filter(ACTIVE_DOT).removeClass(ACTIVE).fadeOut(TAB_TIME, function(){
+      $tabs.eq($this.index()).addClass(ACTIVE).fadeIn(TAB_TIME);
+    });
+  });
+
+  // form validation
   $('form').submit(function(e){
       e.preventDefault();
       var errors = [];
