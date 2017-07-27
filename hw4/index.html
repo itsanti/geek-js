@@ -19,6 +19,16 @@
     .panel {
       height: 100px;
     }
+    .list-group {
+      margin-top: -16px;
+      position: absolute;
+      width: 540px;
+      display: none;
+    }
+    .list-group-item:hover {
+      background-color: #eee;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="container">
@@ -97,6 +107,7 @@
             <label for="tcity">Search City</label>
             <input type="text" class="form-control" id="tcity" placeholder="Search City">
           </div>
+          <ul class="list-group"></ul>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
@@ -118,6 +129,7 @@
   var ACTIVE = 'active';
   var ACTIVE_DOT = '.' + ACTIVE;
   var TAB_TIME = 500;
+  window.dataCities = null;
 
   $tabs.not(ACTIVE_DOT).hide();
 
@@ -140,9 +152,56 @@
         html += '<option value="' + city.code + '">' + city.title + '</option>';
       });
       $('#scity').html(html);
+
+      // data export
+      window.dataCities = data;
+
     },
     dataType: 'json'
   });
+
+  // cities search
+  $('#tcity').on('input focus', function() {
+    var q = $(this).val();
+    var $lg = $('.list-group');
+    var cities = [];
+
+    if (q.length >= 3) {
+      cities = searchCities(q);
+      cities = renderCities(cities);
+      $lg.html(cities).show();
+    } else {
+      if ($lg.is(":visible")) {
+        $lg.hide();
+      }
+    }
+    return false;
+  }).on('blur', function(){
+    if($('.list-group-item:hover').length === 0) {
+      $('.list-group').hide();
+    }
+  });
+
+  $('.list-group').on('click', '.list-group-item', function(){
+    $('#tcity').val($(this).text());
+    $(this).parent().hide();
+  });
+
+  function searchCities(q) {
+    var cities = [];
+    cities = $.grep(dataCities, function(city, index) {
+      return (new RegExp(q, 'i')).test(city.title);
+    });
+    return cities;
+  }
+
+  function renderCities(items) {
+    var html = '';
+    $.each(items, function(index, city){
+      html += '<li class="list-group-item">' + city.title + '</li>';
+    });
+    return html;
+  }
 
   // form validation
   $('form').submit(function(e){
