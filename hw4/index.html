@@ -84,6 +84,20 @@
           <input type="text" class="form-control" id="phone" placeholder="Phone">
           <p class="help-block">phone pattern is +7(000)000-0000</p>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="scity">Select City</label>
+            <select class="form-control" id="scity">
+              <option value="-1">--cities--</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="tcity">Search City</label>
+            <input type="text" class="form-control" id="tcity" placeholder="Search City">
+          </div>
+        </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" placeholder="Email">
@@ -114,6 +128,20 @@
     $tabs.filter(ACTIVE_DOT).removeClass(ACTIVE).fadeOut(TAB_TIME, function(){
       $tabs.eq($this.index()).addClass(ACTIVE).fadeIn(TAB_TIME);
     });
+  });
+
+  // cities Ajax
+  $.ajax({
+    type: 'GET',
+    url: './cities.json',
+    success: function(data) {
+      var html = '';
+      $.each(data, function(index, city){
+        html += '<option value="' + city.code + '">' + city.title + '</option>';
+      });
+      $('#scity').html(html);
+    },
+    dataType: 'json'
   });
 
   // form validation
