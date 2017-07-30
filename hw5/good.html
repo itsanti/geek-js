@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Good</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/Container.js"></script>
+    <script src="js/Response.js"></script>
+    <style>
+      .resp-pub {
+        margin-right: 5px;
+      }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var response = new Response('#response_wrapper');
+
+            $('#show_responses').on('click', function(){
+              response.render();
+            });
+
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var $text = $(this).find('#text');
+                var text = $text.val();
+                var id_user = parseInt($(this).find('#id_user').val());
+                if (text.length) {
+                  response.add(text, id_user);
+                  $text.val('');
+                }
+            });
+        });
+    </script>
+</head>
+<body class="container">
+  <div class="row">
+    <div class="col-md-12">
+    <h1>Гитара Gibson</h1>
+    <pre>
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▄█▄░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▄████▀
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▄███▀░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░▄██▀░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░▄██▀░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░▄██▀░░░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░▄██▀░░░░░░░░░░░
+░░░░░░░░░░░▄███░░░░▄██▀░░░░░░░░░░░░░
+░░░░░░░░░░░████░░▄██▀░░░░░░░░░░░░░░░
+░░░░░▄▄▄▄▄████▀▀██▀░░░░░░░░░░░░░░░░░
+░░▄███████████▄░░█▄▄▄▄░░░░░░░░░░░░░░
+░█████▄████░░▀███████▀░░░░░░░░░░░░░░
+████████▀▀██▄▄████▀▀░░░░░░░░░░░░░░░░
+█████████▄░██████░░░░░░░░░░░░░░░░░░░
+▀████████████▀███░░░░░░░░░░░░░░░░░░░
+░▀██████████████░░░░░░░░░░░░░░░░░░░░
+░░░▀███████████▀░░░░░░░░░░░░░░░░░░░░
+░░░░░▀▀█████▀▀░░░░░░░░░░░░░░░░░░░░░░
+    </pre>
+  </div></div>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-5">
+      <button class="btn btn-success form-control" id="show_responses">показать отзывы</button><hr>
+    </div>
+  </div>
+  <div class="row">
+    <div id="response_wrapper" class="col-md-12"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Ваш отзыв:</h2>
+      <form>
+        <textarea id="text" name="text" class="form-control" rows="5" placeholder="text"></textarea>
+        <input type="hidden" value="35" name="id_user" id="id_user">
+        <div class="col-md-2 col-md-offset-5">
+          <div class="form-group" style="padding-top:10px;">
+            <button type="submit" class="btn btn-primary form-control">Оставить</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
