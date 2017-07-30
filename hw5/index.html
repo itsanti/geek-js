@@ -1,18 +1,56 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HW</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+      #basket_wrapper, .good {
+        margin: 10px;
+        padding: 5px;
+      }
+      .good {
+        float: left;
+      }
+
+      #basket_wrapper {
+        width: 404px;
+      }
+    </style>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/Container.js"></script>
+    <script src="js/Basket.js"></script>
+    <script>
+        $(document).ready(function () {
+            var basket = new Basket();
+            basket.render('#basket_wrapper');
+            //console.log(basket);
+            $('.buyme').on('click', function () {
+                var idProduct = parseInt($(this).attr('id').split('_')[1]);
+                var quantity = 1;
+                var price = parseInt($(this).parent().find('.product-price').text());
+
+                basket.add(idProduct, quantity, price);
+            });
+        });
+    </script>
 </head>
-<body class="container">
-  <div class="row">
-  </div>
-
-  <script> $(document).ready(function(){
-
-  
-  });</script>
+<body>
+    <div id="basket_wrapper" class="bg-info"></div>
+<div class="good bg-success">
+    <p>Товар с ID 123</p>
+    <p>Цена: <span class="product-price text-danger">300</span> руб.</p>
+    <button class="buyme btn" id="good_123">Купить товар</button>
+</div>
+<div class="good bg-info">
+    <p>Товар с ID 200</p>
+    <p>Цена: <span class="product-price text-danger">100</span> руб.</p>
+    <button class="buyme btn" id="good_200">Купить товар</button>
+</div>
+<div class="good bg-success">
+    <p>Товар с ID 52</p>
+    <p>Цена: <span class="product-price text-danger">50</span> руб.</p>
+    <button class="buyme btn" id="good_52">Купить товар</button>
+</div>
 </body>
 </html>
